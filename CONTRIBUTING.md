@@ -54,11 +54,28 @@ flag it) rather than quietly force-pushing over history.
 
 ---
 
+## The contribution workflow (fork → PR)
+
+This is an open commons. Anyone (and any AI assistant) can contribute, and you don't need write
+access. The flow is the standard open-source one, and a maintainer reviews every PR before it merges,
+which is what keeps the library safe and consistent.
+
+1. **Fork** this repo to your own GitHub account.
+2. **Clone your fork** and create a branch: `git checkout -b add-my-thing`.
+3. **Make your change** (a fix, or a new project under `projects/`, or a knowledge/endpoint addition).
+4. **Run the sanitization checklist below** — this repo is public; a leaked key is forever.
+5. **Commit and push to your fork**, then **open a Pull Request** against `Jmoney34/Controller`.
+6. A maintainer reviews it against the sanitization + standards checklist (the PR template fills these
+   in automatically) and merges. Then the next person, and the next person's Claude, builds on it.
+
+> Working with an AI assistant? Point it at this file and the PR template. Both are written so it can
+> self-certify the change is clean before a human ever looks at it.
+
 ## How to contribute
 
 ### Fix or improve existing content
-Open a PR with the change. For docs, keep the voice and structure consistent with the surrounding
-files. For code, include the dependency list and a one-line note on how you tested it.
+Follow the fork → PR flow above. For docs, keep the voice and structure consistent with the
+surrounding files. For code, include the dependency list and a one-line note on how you tested it.
 
 ### Add a new project
 The flagship system lives in [`docs/`](docs/). Additional contributed projects live under
@@ -89,4 +106,7 @@ evidence, no hedging" tone.
 - ❌ Marketing hype or unverifiable claims in docs, keep it credible and specific
 - ❌ Overwriting someone else's work without discussion
 
-Thanks for helping this grow. Build the way you'd want the next person to build.
+By contributing you agree to keep this a welcoming, honest, secure space, see
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+Thanks for helping this grow. Build the way you'd want the next person (or the next Claude) to build.

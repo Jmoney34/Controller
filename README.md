@@ -4,9 +4,11 @@
 > blueprints. The flagship reference: an **enterprise-grade AI automation system for
 > GoHighLevel (GHL)** — built and running on a startup budget.
 
-This repo is meant to grow. It starts with one battle-tested system (documented end to end so you
-could rebuild it), and it's structured so people can add their own useful code and projects over time,
-a place teams can share between each other and where an AI assistant can pull real, working ideas.
+This repo is meant to grow into an **open library that Claude instances can reference and contribute
+to**, so each one builds on the last instead of starting from scratch. It begins with one
+battle-tested system (documented end to end so you could rebuild it) and is structured so anyone, and
+any AI assistant, can add their own working projects, patterns, and hard-won knowledge over time.
+Read it freely; contribute back via a pull request (see [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 > 👉 **New here? Start with [docs/00-start-here.md](docs/00-start-here.md)** for a 2-minute orientation
 > and a reading path. Want to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md).

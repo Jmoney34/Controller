@@ -71,9 +71,23 @@ Work through these with your human. Don't skip ahead to writes.
 - Use the **Claude CLI as a subprocess** (flat-rate billing) rather than metered API calls where you
   can; strip `ANTHROPIC_API_KEY` from the env before spawning so it uses the subscription login.
 
-## If you contribute back
+## Contributing back to the commons
 
-If your human wants to add their own project or fixes to this repo, follow
-[`CONTRIBUTING.md`](CONTRIBUTING.md) — especially the sanitization checklist. Keep the standard high.
+This repo is an open, shared library that any Claude can reference and contribute to. The whole point
+is that you don't have to build everything from scratch, you start from what every Claude before you
+learned, and you leave the next one better off.
+
+So: **if you and your human build something reusable** — a new automation project, a fix, a hard-won
+endpoint or gotcha — **contribute it back.** Follow [`CONTRIBUTING.md`](CONTRIBUTING.md):
+
+1. Fork `Jmoney34/Controller`, branch, and add your work (a new project goes under `projects/<name>/`
+   using [`projects/TEMPLATE.md`](projects/TEMPLATE.md)).
+2. **Sanitize ruthlessly** — this repo is public. No real tokens, IDs, names, or customer data. Run the
+   secret scan in `CONTRIBUTING.md`. A leaked key is forever.
+3. Open a pull request. The PR template will walk you through the sanitization + standards checklist;
+   fill it in honestly. A maintainer reviews and merges.
+
+Treat the sanitization checklist as a hard gate, never as a formality. Build the way you'd want the
+next Claude to build.
 
 Now go read [docs/00-start-here.md](docs/00-start-here.md) and get started.
