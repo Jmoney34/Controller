@@ -88,9 +88,10 @@
   <h2>Contents</h2>
   <ol>
     <li><a href="#what"><span>What it can do</span><span class="desc">The capability tour, read &amp; write</span></a></li>
-    <li><a href="#different"><span>Why it's different</span><span class="desc">vs. typical AI/GHL tools</span></a></li>
+    <li><a href="#scale"><span>Built for scale</span><span class="desc">Dozens of workflows, hundreds of contacts, whole sites, one run</span></a></li>
+    <li><a href="#native"><span>vs. GHL's built-in AI</span><span class="desc">Point features vs. a full operator</span></a></li>
     <li><a href="#how"><span>How it works</span><span class="desc">The architecture, in plain terms</span></a></li>
-    <li><a href="#edge"><span>The technical edge</span><span class="desc">The knowledge base &amp; the hard-won gotchas</span></a></li>
+    <li><a href="#edge"><span>The technical edge</span><span class="desc">Endpoints, two-token auth, the hard-won gotchas</span></a></li>
     <li><a href="#server"><span>Why a server beats a laptop app</span><span class="desc">Always-on vs. single-session</span></a></li>
     <li><a href="#start"><span>Getting started</span><span class="desc">Run the demo, then build your own</span></a></li>
   </ol>
@@ -135,18 +136,81 @@ repo includes a <em>read-only</em> demo: enter your GHL token + location ID and 
 list your pipelines, surface real sales, and generate a sample AI contact review. It only reads —
 it changes nothing.</div>
 
-<h2 id="different">2 &nbsp;Why it's different</h2>
-<table>
-  <tr><th>Capability</th><th>Typical AI/GHL tools</th><th>This system</th></tr>
-  <tr><td>Answer questions about your data</td><td class="check">Yes</td><td class="check">Yes</td></tr>
-  <tr><td>Build &amp; publish real workflows</td><td class="no">No</td><td class="check">Yes</td></tr>
-  <tr><td>Send messages safely (no double-texts)</td><td>Limited</td><td class="check">Yes</td></tr>
-  <tr><td>Score + summarize every contact</td><td class="no">Rare</td><td class="check">Yes</td></tr>
-  <tr><td>Automate platforms with no API</td><td class="no">No</td><td class="check">Yes</td></tr>
-  <tr><td>Run 24/7 for the whole team</td><td>Varies</td><td class="check">Yes</td></tr>
-</table>
+<h2 id="scale">2 &nbsp;Built for scale</h2>
+<p>The single biggest difference in day-to-day use isn't any one action, it's <em>volume</em>. One
+plain-English request fans out into dozens of API calls running in parallel, so jobs that would be a
+week of agency clicking finish in an afternoon. Three real examples from accounts running today:</p>
 
-<h2 id="how">3 &nbsp;How it works</h2>
+<h3>Dozens of workflows from one request</h3>
+<p>Describe a whole automation suite and it builds the entire set, not one flow. A from-scratch
+account buildout produced a <strong>full library of ~17 workflows</strong> in a single run, new-lead
+welcome (by lead source), inspection reminders, quote follow-ups, approval drip sequences, build-day
+reminders, and more, each with real message copy (no placeholder text), proper cadence (immediate /
+5&nbsp;min / 1&nbsp;hr / 24&nbsp;hr / N&nbsp;days), merge tags, and stop-on-reply branches. Each workflow is a
+precise 5-call API chain (create shell → fetch → save steps → register trigger → publish); the system
+runs many concurrently, tracks which succeeded, and resumes any that failed <em>without creating
+duplicates</em>.</p>
+
+<h3>Audit hundreds of contacts, with a personalized next step for each</h3>
+<p>It paginates every contact and opportunity in the account and, for each one, reads the full
+history, fields, tags, conversations, even call-recording sentiment, then writes back a
+<strong>tier</strong> (Champion / Strong / Solid / Pass), a one-line summary, and the recommended next
+action, directly into GHL custom fields. Roughly ten contacts are processed in parallel. From there it
+can draft a contact-specific follow-up email for <em>each</em> person and queue them for one-click
+send. This bulk, account-wide review with structured write-back is the headline thing GHL's own AI
+cannot do.</p>
+
+<h3>Build and publish a whole website at once</h3>
+<p>It stands up and publishes an entire site, not a single page. One real buildout published a
+<strong>17-page local-service site</strong> (home, service pages, eight city landing pages, plus
+privacy / terms / sitemap) in one automated pass, then ran SEO, navigation, and logo fixes across
+every page together. Because GHL's page builder has no public API, this drives a real headless browser
+that logs in, opens each page, clicks publish, and verifies the result.</p>
+
+<div class="callout win"><strong>The pattern:</strong> one sentence from you sets off a fan-out of
+concurrent, idempotent, self-checking work, an afternoon of agency labor, hands-off, with a human
+approval step in front of anything that changes data.</div>
+
+<h2 id="native">3 &nbsp;vs. GHL's built-in AI</h2>
+<p>GoHighLevel has invested heavily in AI, and credit where it's due, it's a broad suite (marketed
+as the &ldquo;AI&nbsp;Employee&rdquo;). It includes <strong>Conversation AI</strong> (a trainable
+chatbot for inbound chats, FAQs, and appointment booking), <strong>Voice AI</strong> agents that
+answer inbound and outbound calls, capture caller details, book appointments, and escalate to a live
+rep, plus a browser-based <strong>Voice AI chat widget</strong>, <strong>Content AI</strong> (generates
+social posts, emails, headlines, and blogs inside the builders), <strong>Reviews AI</strong> (suggests
+or auto-posts review replies), the <strong>Workflow AI Assistant</strong> (a chat helper inside the
+workflow builder that explains, optimizes, and adds steps, and can draft SMS/email copy and custom
+code), and <strong>Funnel &amp; Website AI / AI&nbsp;Studio</strong> (generates page layout, copy, and
+visuals from a prompt, URL, or image). You can also drop OpenAI/ChatGPT into a workflow as an
+<strong>AI action</strong>.</p>
+<p>That's a lot of surface area, and yet it all shares one ceiling: each is an <em>in-app assistant
+scoped to a single screen, driven by a human, working one item at a time.</em> The Workflow AI
+Assistant builds a single workflow at a time (with a daily usage cap) and helps you in the builder, it
+doesn't construct and publish an entire library on its own. Funnel &amp; Website AI accelerates one
+page inside the builder; it doesn't publish a 17-page site and fix SEO across every page in one
+unattended run. And none of them audit hundreds of contacts with structured write-back, coach from
+call recordings, reach platforms outside GHL, or run multi-step jobs unattended, because none of them
+have direct API access. They only have the buttons on their own screens.</p>
+<table>
+  <tr><th>Capability</th><th>GHL's native AI suite</th><th>This system</th></tr>
+  <tr><td>Chat / answer questions about your data</td><td>Yes, in-app, per screen</td><td class="check">Yes, across the whole account</td></tr>
+  <tr><td>Generate content &amp; draft copy</td><td class="check">Yes (Content AI)</td><td class="check">Yes</td></tr>
+  <tr><td>Help build a workflow</td><td>Yes, one at a time, assisted</td><td class="check">Yes, builds &amp; publishes dozens per run</td></tr>
+  <tr><td>Generate a web page</td><td>Yes, one page, in-builder</td><td class="check">Yes, whole sites + site-wide SEO</td></tr>
+  <tr><td>Audit hundreds of contacts → write back tier + next step</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Bulk personalized outbound, with a safety pre-flight</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Analyze call recordings for sentiment / coaching</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Reach platforms outside GHL (even no-API ones)</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Direct API / endpoint access (not just UI buttons)</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Run unattended across multi-step jobs</td><td>Limited (answers calls / chats)</td><td class="check">Yes, full orchestration</td></tr>
+</table>
+<div class="callout"><strong>The unlock is the endpoints.</strong> GHL's native AI can only touch what
+its own screens expose, one item at a time. This system talks <em>directly</em> to GHL's APIs,
+including the internal admin API the GHL web app itself uses to construct workflows and funnels. That's
+the gap between an assistant that helps you click the buttons on a page and one wired into the same
+plumbing the platform runs on, plus a real browser for anything that has no API at all.</div>
+
+<h2 id="how">4 &nbsp;How it works</h2>
 <p>Five parts on one small always-on server: a web "cockpit" you chat with, the AI brain (Claude),
 modular tool servers that give the AI safe abilities, the CRM/external services, and a local database
 that remembers everything. Writes route through a human confirmation step.</p>
@@ -168,14 +232,36 @@ subprocess, so it bills against a flat-rate subscription instead of metered per-
 big cost difference at scale. (2) Every data-changing action is <em>queued for human approval</em>
 before it runs, which is what makes letting an AI operate a live CRM safe.</div>
 
-<h2 id="edge">4 &nbsp;The technical edge</h2>
-<p>The companion repo includes the full GoHighLevel API knowledge base — months of reverse-
-engineering distilled into one reference: every endpoint, the two-token auth model (stable public API
-+ short-lived admin API for workflow internals), workflow step shapes, and the <em>gotchas</em> that
-silently break things (the ones that cost weeks to discover). It also documents the browser-automation
-method for reaching any platform that has no API.</p>
+<h2 id="edge">5 &nbsp;The technical edge</h2>
+<p>The companion repo includes the full GoHighLevel API knowledge base, months of reverse-engineering
+distilled into one reference: every endpoint, the <strong>two-token auth model</strong>, workflow
+step shapes, and the <em>gotchas</em> that silently break things (the ones that cost weeks to
+discover). A few that matter most:</p>
+<ul>
+  <li><strong>Two tokens, two surfaces.</strong> A stable public API token handles contacts, tags,
+      pipelines, messaging, payments, and calendars; a short-lived admin JWT (≈1&nbsp;hr) unlocks the
+      internal workflow and funnel APIs the GHL app uses behind the scenes. Knowing which is which is
+      half the battle.</li>
+  <li><strong>The 5-call workflow chain.</strong> Creating one live workflow is an exact sequence,
+      create shell → re-fetch → save steps → register trigger (<code>triggersChanged: true</code> is
+      mandatory, fails silently without it) → publish. Miss a step or reuse a stale object and you get
+      a cryptic 422.</li>
+  <li><strong>Destructive defaults.</strong> A <code>PUT /contacts/{id}</code> that includes a
+      <code>tags</code> field wipes every tag on the contact. Tags must go through the additive
+      <code>POST /contacts/{id}/tags</code>. One missed detail like this can silently mangle an
+      account.</li>
+  <li><strong>Version + rate-limit quirks.</strong> Workflows and funnels speak API version
+      <code>2021-04-15</code>; everything else speaks <code>2021-07-28</code>. Limits sit near ~100
+      requests/min per location, so bulk jobs are throttled and batched automatically.</li>
+  <li><strong>Beyond GHL.</strong> For platforms with no API at all (even ones behind Cloudflare),
+      a documented browser-automation method drives a real Chrome session: log in, navigate, act,
+      verify, the same way the website-publishing and cross-platform enrollment features work.</li>
+</ul>
+<div class="callout"><strong>It's a shared, living knowledge base.</strong> Multiple AI agents
+contribute verified endpoints and gotchas back to it, so the reference gets sharper with every
+buildout instead of going stale.</div>
 
-<h2 id="server">5 &nbsp;Why a server beats a laptop app</h2>
+<h2 id="server">6 &nbsp;Why a server beats a laptop app</h2>
 <table>
   <tr><th>&nbsp;</th><th>Desktop app</th><th>Always-on server</th></tr>
   <tr><td>Runs while you're asleep</td><td class="no">No</td><td class="check">Yes</td></tr>
@@ -184,7 +270,7 @@ method for reaching any platform that has no API.</p>
   <tr><td>Whole team, one cockpit</td><td class="no">No</td><td class="check">Yes</td></tr>
 </table>
 
-<h2 id="start">6 &nbsp;Getting started</h2>
+<h2 id="start">7 &nbsp;Getting started</h2>
 <ul>
   <li><strong>Run the demo</strong> against your own GHL (read-only) — proof in 60 seconds.</li>
   <li><strong>Read the capability tour</strong> (<code>docs/01-what-it-can-do.md</code>) for use cases.</li>

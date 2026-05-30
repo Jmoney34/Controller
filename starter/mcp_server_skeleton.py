@@ -41,6 +41,21 @@ def hdrs():
             "Version": VERSION, "Content-Type": "application/json"}
 
 
+def api(method, path, **kw):
+    """HTTP with status checking. A network error or 4xx/5xx returns a clean error
+    object instead of raising, so a single bad call can never crash the tool server."""
+    try:
+        r = requests.request(method, f"{GHL_BASE}{path}", headers=hdrs(), timeout=25, **kw)
+    except requests.RequestException as e:
+        return {"error": "network_error", "detail": str(e)}
+    if r.status_code >= 300:
+        return {"error": f"http_{r.status_code}", "detail": r.text[:300]}
+    try:
+        return r.json()
+    except ValueError:
+        return {"error": "non_json_response", "detail": r.text[:300]}
+
+
 def ok(obj):
     return [TextContent(type="text", text=json.dumps(obj, default=str))]
 
@@ -98,26 +113,21 @@ async def list_tools():
 async def call_tool(name, arguments):
     # ---- reads (execute live) ----
     if name == "ghl_list_pipelines":
-        r = requests.get(f"{GHL_BASE}/opportunities/pipelines",
-                         headers=hdrs(), params={"locationId": LOC}, timeout=25)
-        return ok(r.json())
+        return ok(api("GET", "/opportunities/pipelines", params={"locationId": LOC}))
 
     if name == "ghl_search_contacts":
         body = {"locationId": LOC, "pageLimit": arguments.get("limit", 20)}
         if arguments.get("query"):
             body["query"] = arguments["query"]
-        r = requests.post(f"{GHL_BASE}/contacts/search", headers=hdrs(), json=body, timeout=25)
-        return ok(r.json())
+        return ok(api("POST", "/contacts/search", json=body))
 
     if name == "ghl_get_contact":
-        r = requests.get(f"{GHL_BASE}/contacts/{arguments['contact_id']}", headers=hdrs(), timeout=25)
-        return ok(r.json())
+        return ok(api("GET", f"/contacts/{arguments['contact_id']}"))
 
     if name == "ghl_recent_orders":
-        r = requests.get(f"{GHL_BASE}/payments/orders/", headers=hdrs(),
-                         params={"altId": LOC, "altType": "location",
-                                 "limit": arguments.get("limit", 10)}, timeout=25)
-        return ok(r.json())
+        return ok(api("GET", "/payments/orders/",
+                      params={"altId": LOC, "altType": "location",
+                              "limit": arguments.get("limit", 10)}))
 
     # ---- write (QUEUES, does not fire) ----
     if name == "ghl_add_tag":
@@ -131,7 +141,16 @@ async def call_tool(name, arguments):
     return ok({"error": f"unknown tool {name}"})
 
 
+def _check_env():
+    """Fail fast with a clear message instead of silently calling GHL with an empty
+    token / location id (which would return confusing 401/404s from every tool)."""
+    missing = [v for v in ("GHL_TOKEN", "GHL_LOCATION_ID") if not os.environ.get(v)]
+    if missing:
+        raise SystemExit(f"ERROR: set these environment variables first: {', '.join(missing)}")
+
+
 async def _main():
+    _check_env()
     init_pending_db()
     async with stdio_server() as (r, w):
         await app.run(r, w, app.create_initialization_options())

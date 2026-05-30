@@ -24,9 +24,12 @@ that happens **while you're not watching**. Concrete differences:
 platform, texts them, and — hours later, when they activate — enrolls them and confirms. A laptop app
 was asleep for all of it.
 
-**Cost framing:** the whole thing runs comfortably on a small cloud server (about the price of a
-couple of coffees a month) plus usage-based services. That's the "enterprise capability on a startup
-budget" part.
+**Cost framing:** the whole thing runs comfortably on a small cloud server (a 2 vCPU / ~4 GB VM is
+roughly **$12–24/month**) plus a flat-rate Claude subscription for the AI brain (instead of metered
+per-token API billing). The optional services are usage-based and have free tiers to start
+(Browserbase for browser automation; Gladia for call transcription, ~10 free hours/month). For most
+small operations the all-in cost lands in the low tens of dollars a month, which is the "enterprise
+capability on a startup budget" part. Your numbers will vary with volume.
 
 ---
 

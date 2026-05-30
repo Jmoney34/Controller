@@ -27,13 +27,20 @@ VERSION = "2021-07-28"
 
 
 def hdrs():
-    return {"Authorization": f"Bearer {os.environ['GHL_TOKEN']}",
+    token = os.environ.get("GHL_TOKEN", "")
+    if not token:
+        raise SystemExit("ERROR: set GHL_TOKEN first.")
+    return {"Authorization": f"Bearer {token}",
             "Version": VERSION, "Content-Type": "application/json"}
 
 
 def get_contact(contact_id):
-    r = requests.get(f"{GHL_BASE}/contacts/{contact_id}", headers=hdrs(), timeout=25)
-    r.raise_for_status()
+    try:
+        r = requests.get(f"{GHL_BASE}/contacts/{contact_id}", headers=hdrs(), timeout=25)
+        r.raise_for_status()
+    except requests.RequestException as e:
+        detail = getattr(getattr(e, "response", None), "text", "") or str(e)
+        raise SystemExit(f"ERROR fetching contact {contact_id}: {detail[:300]}")
     return r.json().get("contact", {})
 
 
@@ -57,7 +64,7 @@ def review_contact(contact):
     signals = {k: contact.get(k) for k in ("tags", "email", "phone", "dateAdded", "source")}
     prompt = (
         "You are a sales-ops analyst. Using ONLY the data below, return:\n"
-        "Line 1: 'Tier: <Hot|Warm|Cold|Champion>'\n"
+        "Line 1: 'Tier: <Champion|Strong|Solid|Pass>'\n"
         "Then 2-3 sentences: who they are + the single best next action.\n\n"
         f"CONTACT: {name}\nDATA: {json.dumps(signals, default=str)}\n"
     )
@@ -65,22 +72,25 @@ def review_contact(contact):
     if out:
         return out
     # Fallback so the example always produces something
-    tier = "Warm" if contact.get("tags") else "Cold"
+    tier = "Strong" if contact.get("tags") else "Solid"
     return (f"Tier: {tier}\n{name} is in your database. "
             f"Recommended next action: a personalized follow-up referencing their last interaction.\n"
             f"(install the Claude CLI to generate this live)")
 
 
 def write_back(contact_id, tier, summary):
-    """OPTIONAL write-back (commented out by default for safety).
+    """OPTIONAL write-back. INTENTIONALLY DISABLED in this example, by design, not a bug.
 
-    In the full system this is the 'write' side: persist the AI's review onto custom
-    fields so your team sees it inside GHL. Replace the field IDs with your own
-    (look them up via GET /locations/{LOC}/customFields).
+    This file demonstrates the READ + score side only. The commented code below is the
+    template for the 'write' side: persist the AI's review onto custom fields so your team
+    sees it inside GHL. To enable it, replace the field IDs with your own (look them up via
+    GET /locations/{LOC}/customFields) and route the call through a human-confirmation step
+    rather than firing directly (see docs/04-rebuild-guide.md for the safe write pattern).
+    Leaving it raise-guarded keeps the example safe to run as-is.
     """
     raise NotImplementedError(
-        "Write-back is intentionally disabled in this example. "
-        "Wire it through your pending-write confirmation flow (see docs/04)."
+        "write_back() is an intentional safety template, not a bug. "
+        "Enable it deliberately via your pending-write confirmation flow (see docs/04)."
     )
     # TIER_FIELD_ID = "<your custom field id>"
     # SUMMARY_FIELD_ID = "<your custom field id>"

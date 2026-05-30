@@ -1,12 +1,15 @@
-# GHL AI Automation — Reference Library
+# Controller — GHL AI Automation Reference Library
 
-> A shared, private reference library of cool and genuinely useful automation code, patterns, and
-> project blueprints. The flagship reference: an **enterprise-grade AI automation system for
+> A shared, open reference library of genuinely useful automation code, patterns, and project
+> blueprints. The flagship reference: an **enterprise-grade AI automation system for
 > GoHighLevel (GHL)** — built and running on a startup budget.
 
 This repo is meant to grow. It starts with one battle-tested system (documented end to end so you
-could rebuild it), and it's structured so trusted people can add their own useful code and projects
-over time.
+could rebuild it), and it's structured so people can add their own useful code and projects over time,
+a place teams can share between each other and where an AI assistant can pull real, working ideas.
+
+> 👉 **New here? Start with [docs/00-start-here.md](docs/00-start-here.md)** for a 2-minute orientation
+> and a reading path. Want to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
@@ -52,6 +55,7 @@ contacts, and generate a sample AI "contact review." Full instructions: **[demo/
 
 | Path | What it is |
 |---|---|
+| **[docs/00-start-here.md](docs/00-start-here.md)** | Orientation + reading path — **start here** |
 | **[docs/01-what-it-can-do.md](docs/01-what-it-can-do.md)** | The full capability tour + business use cases (reads **and** writes/builds) |
 | **[docs/02-architecture.md](docs/02-architecture.md)** | How the whole thing fits together (the stack) |
 | **[docs/03-ghl-knowledge-base.md](docs/03-ghl-knowledge-base.md)** | The GHL API "bible": endpoints, auth, gotchas, step shapes |
@@ -60,6 +64,8 @@ contacts, and generate a sample AI "contact review." Full instructions: **[demo/
 | **[docs/06-full-server-setup.md](docs/06-full-server-setup.md)** | Stand up the always-on server stack we run, and why it beats a laptop app |
 | **[demo/](demo/)** | The read-only "see it on your account" demo |
 | **[starter/](starter/)** | Sanitized starter code (MCP tool server skeleton, AI contact-review example) |
+| **[projects/](projects/)** | Community-grown shelf of additional contributed projects |
+| **[CONTRIBUTING.md](CONTRIBUTING.md)** | How to add a project or fix, and the sanitization standard everyone follows |
 
 ---
 
@@ -77,7 +83,8 @@ contacts, and generate a sample AI "contact review." Full instructions: **[demo/
 Everything here is sanitized — no real credentials, customer data, or account IDs. You supply your
 own via a local `.env` file (which is git-ignored). The demo is read-only. When you build the
 write/build features, the recommended pattern (documented inside) routes every write through a
-**human confirmation step** so nothing fires unintentionally.
+**human confirmation step** so nothing fires unintentionally. Contributing? Hold the same line — the
+sanitization checklist is in **[CONTRIBUTING.md](CONTRIBUTING.md)**.
 
 ---
 

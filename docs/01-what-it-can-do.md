@@ -42,8 +42,10 @@ triggers, branching logic, messages, waits, tags, opportunity steps — and publ
 - **Multi-step workflow buildouts:** "Build a 5-touch new-lead nurture: instant SMS, then an email
   after 1 hour, wait a day, branch on whether they replied, tag the engaged ones, and notify the rep
   on hot leads." It assembles every step with the correct structure.
-- **Multiple automations in one session:** spin up a nurture sequence, a post-purchase onboarding
-  flow, and a win-back campaign in parallel — each with the right trigger and safety conditions.
+- **Many automations in one run:** spin up a nurture sequence, a post-purchase onboarding flow, and a
+  win-back campaign in parallel — each with the right trigger and safety conditions. A single
+  from-scratch buildout has produced a **full library of ~17 workflows** at once, running the API
+  chains concurrently and resuming any that failed without creating duplicates.
 - **Edits existing workflows:** add a step, change copy, rewrite an AI prompt step, fix a broken
   branch — without rebuilding from scratch.
 - **Publishes / unpublishes / archives** workflows on command.
@@ -88,10 +90,13 @@ dropped into the onboarding sequence — no manual stage-dragging.
 
 ## 5. AI contact intelligence at scale  ⭐ (write power)
 
-- **Profile review:** reads a contact's full history and writes back a **tier** (Hot / Warm / Cold /
-  Champion) and a short **summary + recommended next action** — directly onto the contact's custom
+- **Profile review:** reads a contact's full history and writes back a **tier** (Champion / Strong /
+  Solid / Pass) and a short **summary + recommended next action** — directly onto the contact's custom
   fields so your team sees it inside GHL. (You saw a sample of this in the demo.)
-- **Runs across your whole database**, not one at a time.
+- **Runs across your whole database**, not one at a time — it paginates through every contact and
+  opportunity, processes ~10 in parallel, and can then draft a contact-specific follow-up for *each*
+  person and queue them for one-click send. Auditing hundreds of contacts and giving every one a
+  personalized next step is exactly the kind of bulk, account-wide work GHL's own AI can't do.
 - **Call-recording analysis:** pulls call audio + transcripts, runs speaker diarization and
   **sentiment/emotion analysis**, and turns it into coaching notes and deal-health scores.
 
@@ -101,7 +106,25 @@ recordings.
 
 ---
 
-## 6. Reaches OUTSIDE GoHighLevel  ⭐ (write power)
+## 6. Builds and publishes entire websites  ⭐ (write power)
+
+It doesn't stop at automations — it builds and ships **whole sites**, not one page at a time.
+
+- **Multi-page buildouts:** one real run published a **17-page local-service website** (home, service
+  pages, eight city landing pages, plus privacy / terms / sitemap) in a single automated pass.
+- **Site-wide fixes in one go:** SEO metadata, navigation, and logo corrections applied across every
+  page together, not page by page.
+- **No public API? No problem.** GHL's page builder has no public API, so this runs through a real
+  headless browser that logs in, opens each page, clicks publish, and verifies the result — the same
+  browser-automation technique used to reach platforms outside GHL (next section).
+
+**Use case:** A contractor wants a local-SEO site with a landing page per city they serve. They
+describe it once; the system builds and publishes the whole set, ready to drive ads to, in a single
+run.
+
+---
+
+## 7. Reaches OUTSIDE GoHighLevel  ⭐ (write power)
 
 The system isn't limited to GHL. It can drive other platforms — even ones with **no API at all**.
 
@@ -118,7 +141,7 @@ system.
 
 ---
 
-## 7. Always-on automation & scheduled work
+## 8. Always-on automation & scheduled work
 
 - **Background pollers and scheduled jobs:** recurring tasks run on their own (e.g. "every 10
   minutes, check who activated their account and enroll them").
@@ -128,10 +151,65 @@ system.
 
 ---
 
-## 8. Reporting & answers, live
+## 9. Reporting & answers, live
 
 - Revenue and orders (the demo shows this), email/SMS campaign stats, call stats per rep, pipeline
   health, "what's stuck," and more — answered on demand, pulled live, no exporting to spreadsheets.
+
+---
+
+## How this compares to GHL's own AI
+
+GoHighLevel has invested heavily in AI, and credit where it's due — it's a broad suite (marketed as
+the "AI Employee"). Listing it in full:
+
+- **Conversation AI** — a trainable chatbot that handles inbound chats, FAQs, and appointment booking.
+- **Voice AI agents** — answer inbound and outbound phone calls, capture caller info (name, email,
+  need), store it in the CRM, book appointments, kick off follow-up automations, and escalate to a
+  live rep on high intent. Trainable on your website content.
+- **Voice AI chat widget** — live, microphone-based voice conversations with visitors right in the
+  browser (over WebRTC), no phone call needed.
+- **Content AI** — generates social posts, emails, website headlines, and blogs inside the Social
+  Planner, Email Builder, Blogs, Funnels, and Websites.
+- **Reviews AI** — suggests or auto-posts responses to customer reviews.
+- **Workflow AI Assistant** — a chat helper *inside the workflow builder*: it guides new users,
+  explains and optimizes an existing workflow, adds individual actions, drafts SMS/email content and
+  custom code, and adjusts settings by natural language.
+- **Funnel & Website AI / AI Studio** — generates page layout, copy, and visuals from a prompt, a
+  URL, or an image, to accelerate building a page.
+- **AI action (External models)** — drop OpenAI/ChatGPT into a workflow you already built.
+
+That's a genuinely wide surface, but it all shares one ceiling: **each is an in-app assistant scoped
+to a single screen, driven by a human, working one item at a time.** Specifically:
+
+- The **Workflow AI Assistant builds one workflow at a time** (with a daily fair-usage cap) and
+  *assists* you in the builder — it does not construct and publish an entire library of workflows on
+  its own, concurrently and resumably, the way this system does.
+- **Funnel & Website AI accelerates a single page** in the builder — it does not publish a 17-page
+  site and run SEO/nav/logo fixes across every page in one unattended pass.
+- None of the native tools **audit hundreds of contacts with structured write-back**, **coach from
+  call recordings**, **reach platforms outside GHL**, or **run multi-step jobs unattended** — because
+  none of them have direct API access. They only have the buttons on their own screens.
+
+| Capability | GHL's native AI suite | This system |
+|---|---|---|
+| Chat / answer questions about your data | Yes — in-app, per screen | Yes — across the whole account |
+| Generate content & draft copy | Yes (Content AI) | Yes |
+| Help build a workflow | Yes — one at a time, assisted | Yes — builds & publishes dozens per run |
+| Generate a web page | Yes — one page, in-builder | Yes — whole sites + site-wide SEO |
+| Audit hundreds of contacts → write back tier + next step | No | Yes |
+| Bulk personalized outbound, with a safety pre-flight | No | Yes |
+| Analyze call recordings for sentiment / coaching | No | Yes |
+| Reach platforms outside GHL (even no-API ones) | No | Yes |
+| Direct API / endpoint access (not just UI buttons) | No | Yes |
+| Run unattended across multi-step jobs | Limited (answers calls / chats) | Yes — full orchestration |
+
+**The unlock is the endpoints.** GHL's native AI can only touch what its own screens expose, one item
+at a time. This system talks *directly* to GHL's APIs — including the internal admin API the GHL web
+app itself uses to construct workflows and funnels — plus a real browser for anything that has no API
+at all. That's the difference between an assistant that helps you click the buttons on a page and one
+wired into the same plumbing the platform runs on. (Full endpoint reference:
+**[03-ghl-knowledge-base.md](03-ghl-knowledge-base.md)**.)
 
 ---
 

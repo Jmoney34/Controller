@@ -1,0 +1,4 @@
+requests>=2.28
+# Only needed for mcp_server_skeleton.py (the MCP tool server).
+# profile_review_example.py needs just `requests` + the Claude CLI on your PATH.
+mcp>=1.0
