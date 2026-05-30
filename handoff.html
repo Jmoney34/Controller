@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GHL AI Automation — Capabilities Overview</title>
+<style>
+  :root{
+    --ink:#1a1f2b; --muted:#5b6473; --line:#e2e6ee; --accent:#3b5bdb;
+    --accent2:#7048e8; --good:#2f9e44; --bg-soft:#f6f8fc; --code:#0b1021;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+       color:var(--ink); line-height:1.55; margin:0; font-size:14px;}
+  .page{max-width:820px; margin:0 auto; padding:48px 56px;}
+  h1,h2,h3{line-height:1.2; font-weight:700;}
+  h2{font-size:22px; margin:34px 0 10px; padding-top:14px; border-top:2px solid var(--line); color:var(--ink);}
+  h3{font-size:16px; margin:20px 0 6px; color:var(--accent);}
+  p{margin:8px 0;}
+  a{color:var(--accent); text-decoration:none;}
+  code{background:var(--bg-soft); padding:1px 5px; border-radius:4px; font-size:12.5px;
+       font-family:"SF Mono",Menlo,Consolas,monospace;}
+  .muted{color:var(--muted);}
+  .tag{display:inline-block; background:var(--accent); color:#fff; font-size:11px; font-weight:700;
+       padding:2px 8px; border-radius:20px; vertical-align:middle; margin-left:6px;}
+
+  /* cover */
+  .cover{min-height:92vh; display:flex; flex-direction:column; justify-content:center;
+         border-bottom:none; page-break-after:always;}
+  .cover .kicker{color:var(--accent); font-weight:700; letter-spacing:.12em; text-transform:uppercase; font-size:12px;}
+  .cover h1{font-size:44px; margin:14px 0 8px; background:linear-gradient(90deg,var(--accent),var(--accent2));
+            -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .cover .sub{font-size:19px; color:var(--muted); max-width:600px;}
+  .cover .thesis{margin-top:26px; padding:18px 22px; background:var(--bg-soft);
+                 border-left:4px solid var(--accent); border-radius:6px; font-size:15px;}
+
+  .callout{background:var(--bg-soft); border:1px solid var(--line); border-left:4px solid var(--accent2);
+           border-radius:6px; padding:12px 16px; margin:14px 0;}
+  .win{border-left-color:var(--good);}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;}
+  .card{border:1px solid var(--line); border-radius:8px; padding:14px 16px; background:#fff;}
+  .card h4{margin:0 0 6px; font-size:14px;}
+  .card p{margin:0; font-size:13px; color:var(--muted);}
+  table{border-collapse:collapse; width:100%; margin:12px 0; font-size:13px;}
+  th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--bg-soft);}
+  .check{color:var(--good); font-weight:700;}
+  .no{color:#c92a2a; font-weight:700;}
+  pre{background:var(--code); color:#e6e9f2; padding:14px 16px; border-radius:8px; overflow:auto;
+      font-size:12px; line-height:1.45; font-family:"SF Mono",Menlo,Consolas,monospace;}
+  ul{margin:8px 0; padding-left:22px;} li{margin:4px 0;}
+  .footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:12px;}
+  h2{page-break-after:avoid;} .card,.callout,pre,table{page-break-inside:avoid;}
+</style>
+</head>
+<body>
+
+<div class="page cover">
+  <div class="kicker">Capabilities Overview</div>
+  <h1>An AI That Runs Your GoHighLevel</h1>
+  <div class="sub">Enterprise-grade automation, built and running on a startup budget. It reads
+    everything, builds entire automations from a sentence, and reaches beyond GHL entirely.</div>
+  <div class="thesis">
+    <strong>The thesis:</strong> most "AI for GHL" tools can only read or suggest. This one
+    <strong>does the work</strong> — constructs and publishes workflows, sends messages, scores
+    contacts, analyzes calls, and automates platforms that have no API at all. All 24/7, for less
+    than a typical SaaS subscription.
+  </div>
+  <div class="muted" style="margin-top:30px; font-size:13px;">A shareable overview. The companion
+    repo contains the full documentation, a runnable read-only demo, and starter code.</div>
+</div>
+
+<div class="page">
+
+<h2>What it can do</h2>
+<p>You talk to it like a teammate — "build me a new-lead nurture," "who went cold this week,"
+"enroll everyone who bought" — and it actually does the work inside GHL and beyond, with a
+confirmation step before anything changes.</p>
+
+<div class="grid">
+  <div class="card"><h4>Builds automations from a prompt <span class="tag">write</span></h4>
+    <p>Describe a multi-step workflow in words; it constructs the triggers, branches, messages,
+    waits, and tags — and publishes it live. Multiple flows in one session.</p></div>
+  <div class="card"><h4>Messaging that sends itself <span class="tag">write</span></h4>
+    <p>SMS / email / WhatsApp from the right rep's number, with duplicate protection so nobody is
+    ever double-texted.</p></div>
+  <div class="card"><h4>Pipeline &amp; contact ops <span class="tag">write</span></h4>
+    <p>Moves deals, updates fields, adds tags — driven by calls, replies, and payments. Bulk actions
+    get a safety pre-flight scan.</p></div>
+  <div class="card"><h4>AI contact intelligence <span class="tag">write</span></h4>
+    <p>Scores + summarizes every contact (tier + next action) written back into GHL, plus
+    call-recording sentiment analysis for coaching.</p></div>
+  <div class="card"><h4>Reaches outside GHL <span class="tag">write</span></h4>
+    <p>Automates platforms with no API (even behind Cloudflare): create account, wait for activation,
+    enroll, confirm — across two systems, hands-off.</p></div>
+  <div class="card"><h4>Always-on &amp; conversational</h4>
+    <p>A chat "cockpit" your team uses by text or voice. Background pollers, scheduled jobs, and
+    webhooks run around the clock.</p></div>
+</div>
+
+<div class="callout win"><strong>See it on your own account in 60 seconds.</strong> The companion
+repo includes a <em>read-only</em> demo: enter your GHL token + location ID and watch it connect,
+list your pipelines, surface real sales, and generate a sample AI contact review. It only reads —
+it changes nothing.</div>
+
+<h2>Why it's different</h2>
+<table>
+  <tr><th>Capability</th><th>Typical AI/GHL tools</th><th>This system</th></tr>
+  <tr><td>Answer questions about your data</td><td class="check">Yes</td><td class="check">Yes</td></tr>
+  <tr><td>Build &amp; publish real workflows</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Send messages safely (no double-texts)</td><td>Limited</td><td class="check">Yes</td></tr>
+  <tr><td>Score + summarize every contact</td><td class="no">Rare</td><td class="check">Yes</td></tr>
+  <tr><td>Automate platforms with no API</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Run 24/7 for the whole team</td><td>Varies</td><td class="check">Yes</td></tr>
+</table>
+
+<h2>How it works</h2>
+<p>Five parts on one small always-on server: a web "cockpit" you chat with, the AI brain (Claude),
+modular tool servers that give the AI safe abilities, the CRM/external services, and a local database
+that remembers everything. Writes route through a human confirmation step.</p>
+<pre>        YOU / TEAM ──(browser: cockpit)── HTTPS
+                          │
+        ┌─────────────── CLOUD SERVER (always on) ───────────────┐
+        │  Web app (FastAPI) ── SQLite                           │
+        │  AI brain (Claude, via CLI)                            │
+        │  Tool servers: GHL · browser bridge · knowledge        │
+        └────────────────────────────────────────────────────────┘
+             │              │                 │
+        GoHighLevel    Browserbase         Gladia
+          (CRM)     (headless browser)  (call transcription)
+                          │
+                  platforms with NO API</pre>
+
+<div class="callout"><strong>Two design choices that matter.</strong> (1) The AI runs as a CLI
+subprocess, so it bills against a flat-rate subscription instead of metered per-token API calls — a
+big cost difference at scale. (2) Every data-changing action is <em>queued for human approval</em>
+before it runs, which is what makes letting an AI operate a live CRM safe.</p></div>
+
+<h2>The technical edge</h2>
+<p>The companion repo includes the full GoHighLevel API knowledge base — months of reverse-
+engineering distilled into one reference: every endpoint, the two-token auth model (stable public API
++ short-lived admin API for workflow internals), workflow step shapes, and the <em>gotchas</em> that
+silently break things (the ones that cost weeks to discover). It also documents the browser-automation
+method for reaching any platform that has no API.</p>
+
+<h3>Why a server beats a laptop app</h3>
+<table>
+  <tr><th>&nbsp;</th><th>Desktop app</th><th>Always-on server</th></tr>
+  <tr><td>Runs while you're asleep</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Background pollers / webhooks</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Long tasks survive closing the tab</td><td class="no">No</td><td class="check">Yes</td></tr>
+  <tr><td>Whole team, one cockpit</td><td class="no">No</td><td class="check">Yes</td></tr>
+</table>
+
+<h2>Getting started</h2>
+<ul>
+  <li><strong>Run the demo</strong> against your own GHL (read-only) — proof in 60 seconds.</li>
+  <li><strong>Read the capability tour</strong> (<code>docs/01-what-it-can-do.md</code>) for use cases.</li>
+  <li><strong>Hand the rebuild guide</strong> (<code>docs/04-rebuild-guide.md</code>) + the knowledge
+      base to your AI assistant and build your own, one stage at a time.</li>
+  <li><strong>Stand up the server</strong> (<code>docs/06-full-server-setup.md</code>) when you want
+      it running 24/7.</li>
+</ul>
+
+<div class="callout win">Everything described here is real and running today — on a startup budget.
+The repo gives you the documentation, the demo, and the starter code to build the same thing.</div>
+
+<div class="footer">GHL AI Automation — Capabilities Overview · sanitized for sharing (no
+credentials or customer data) · companion repo contains full docs, demo, and starter code.</div>
+
+</div>
+</body>
+</html>

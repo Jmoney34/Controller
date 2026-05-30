@@ -1,0 +1,36 @@
+# Secrets — NEVER commit
+.env
+*.env
+!*.env.example
+.env.local
+
+# Auth / session state
+*storage_state*.json
+*auth*.json
+*.session.json
+.ghl_*
+
+# Databases
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Build artifacts (keep the PDF, ignore scratch)
+/tmp/
+*.log
