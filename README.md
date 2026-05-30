@@ -22,7 +22,7 @@ recordings for sentiment, and even reaches **outside** GHL to automate other pla
 API at all.
 
 See **[docs/01-what-it-can-do.md](docs/01-what-it-can-do.md)** for the full capability tour with
-real business use cases, and **[SMSB-GHL-AI-Capabilities.pdf](SMSB-GHL-AI-Capabilities.pdf)** for the
+real business use cases, and **[GHL-AI-Automation-Capabilities.pdf](GHL-AI-Automation-Capabilities.pdf)** for the
 shareable overview.
 
 ---
