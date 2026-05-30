@@ -35,6 +35,7 @@ Read these in sequence for the full picture. Each ends with a "Next →" link.
 | 04 | [Rebuild guide](04-rebuild-guide.md) | "Hand this to your AI assistant and build your own," stage by stage | 10 min |
 | 05 | [Beyond GHL](05-beyond-ghl.md) | Automating platforms that have **no API** (the reverse-engineering method) | 8 min |
 | 06 | [Full server setup](06-full-server-setup.md) | Stand up the always-on server, and why it beats a laptop app | 8 min |
+| 07 | [Cookbook](07-cookbook.md) | Copy-paste recipes for the common tasks | reference |
 
 ---
 
@@ -43,7 +44,8 @@ Read these in sequence for the full picture. Each ends with a "Next →" link.
 - **…see it work on my account** → [`demo/`](../demo/)
 - **…understand what it can do** → [01](01-what-it-can-do.md)
 - **…look up a specific GHL endpoint or gotcha** → [03](03-ghl-knowledge-base.md)
-- **…have my AI assistant build this for me** → [04](04-rebuild-guide.md) (hand it that doc + [03](03-ghl-knowledge-base.md))
+- **…have my AI assistant build this for me** → it should read [CLAUDE.md](../CLAUDE.md) first (its playbook), then [04](04-rebuild-guide.md) + [03](03-ghl-knowledge-base.md)
+- **…grab a ready-made code recipe** → [07 — Cookbook](07-cookbook.md)
 - **…automate a platform with no API** → [05](05-beyond-ghl.md)
 - **…run it 24/7** → [06](06-full-server-setup.md)
 - **…contribute a project or fix** → [CONTRIBUTING.md](../CONTRIBUTING.md)

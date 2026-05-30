@@ -10,6 +10,9 @@ a place teams can share between each other and where an AI assistant can pull re
 
 > 👉 **New here? Start with [docs/00-start-here.md](docs/00-start-here.md)** for a 2-minute orientation
 > and a reading path. Want to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md).
+>
+> 🤖 **Are you an AI assistant** reading this for someone? Read **[CLAUDE.md](CLAUDE.md)** first — it's
+> your playbook for using this repo to build the system for your human, safely and at full capability.
 
 ---
 
@@ -55,13 +58,15 @@ contacts, and generate a sample AI "contact review." Full instructions: **[demo/
 
 | Path | What it is |
 |---|---|
-| **[docs/00-start-here.md](docs/00-start-here.md)** | Orientation + reading path — **start here** |
+| **[CLAUDE.md](CLAUDE.md)** | Playbook for an AI assistant handed this repo — **AIs start here** |
+| **[docs/00-start-here.md](docs/00-start-here.md)** | Orientation + reading path — **humans start here** |
 | **[docs/01-what-it-can-do.md](docs/01-what-it-can-do.md)** | The full capability tour + business use cases (reads **and** writes/builds) |
 | **[docs/02-architecture.md](docs/02-architecture.md)** | How the whole thing fits together (the stack) |
 | **[docs/03-ghl-knowledge-base.md](docs/03-ghl-knowledge-base.md)** | The GHL API "bible": endpoints, auth, gotchas, step shapes |
 | **[docs/04-rebuild-guide.md](docs/04-rebuild-guide.md)** | "Hand this to your AI assistant and build your own" |
 | **[docs/05-beyond-ghl.md](docs/05-beyond-ghl.md)** | Automating platforms with **no API** (reverse-engineering method) |
 | **[docs/06-full-server-setup.md](docs/06-full-server-setup.md)** | Stand up the always-on server stack we run, and why it beats a laptop app |
+| **[docs/07-cookbook.md](docs/07-cookbook.md)** | Copy-paste recipes for the most common tasks |
 | **[demo/](demo/)** | The read-only "see it on your account" demo |
 | **[starter/](starter/)** | Sanitized starter code (MCP tool server skeleton, AI contact-review example) |
 | **[projects/](projects/)** | Community-grown shelf of additional contributed projects |
