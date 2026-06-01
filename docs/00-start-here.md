@@ -36,6 +36,7 @@ Read these in sequence for the full picture. Each ends with a "Next →" link.
 | 05 | [Beyond GHL](05-beyond-ghl.md) | Automating platforms that have **no API** (the reverse-engineering method) | 8 min |
 | 06 | [Full server setup](06-full-server-setup.md) | Stand up the always-on server, and why it beats a laptop app | 8 min |
 | 07 | [Cookbook](07-cookbook.md) | Copy-paste recipes for the common tasks | reference |
+| 08 | [Social Content Engine](08-social-content-engine.md) | AI that plans, generates + schedules social posts behind a human approval gate | 8 min |
 
 ---
 
@@ -48,6 +49,7 @@ Read these in sequence for the full picture. Each ends with a "Next →" link.
 - **…grab a ready-made code recipe** → [07 — Cookbook](07-cookbook.md)
 - **…automate a platform with no API** → [05](05-beyond-ghl.md)
 - **…run it 24/7** → [06](06-full-server-setup.md)
+- **…build an AI social-posting engine (approval-gated)** → [08](08-social-content-engine.md)
 - **…contribute a project or fix** → [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ---
