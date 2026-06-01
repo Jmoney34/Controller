@@ -130,42 +130,40 @@ Before adding a nurture/message step to workflow A, scan every *other* workflow'
 audience or topic so you don't double-message people. List the workflows, iterate their steps, grep
 the message bodies. Cheap insurance against the most common automation embarrassment.
 
-## Recipe 8 — Media library: create folders, and the move trap
+## Recipe 8 — Media library: organize it end to end (create, move, rename)
 
-You can have the AI organize a media library *partway*: it can create folders, rename, upload, and
-delete via the API. What it **cannot** do is **move an existing file into a folder** — that's UI-only
-(the library is Firestore-backed; reparenting has no working REST endpoint). Know this before you
-promise a client a "one-click library cleanup."
+Full CRUD over the media library is available via the API — create folders, move files into them,
+rename, trash. The one non-obvious bit is the **move** endpoint: it's `/medias/move-files` with a
+`targetParentId` + a `filesToBeMoved` array, **not** a `parentId` on the file. (`POST /medias/{id}`
+*looks* like it should move — it accepts `parentId` — but it silently ignores it and only renames.
+Use the dedicated endpoint.)
 
 ```python
-def create_folder(name, parent_id=None):
-    body = {"name": name, "altType": "location", "altId": LOC}
-    if parent_id:
-        body["parentId"] = parent_id
-    r = requests.post(f"{GHL}/medias/folder", headers=HDRS, json=body)
-    return r.json().get("_id")        # 201 -> the new folder object incl. _id
+def create_folder(name, parent_id=""):
+    r = requests.post(f"{GHL}/medias/folder", headers=HDRS,
+        json={"name": name, "parentId": parent_id, "altId": LOC, "altType": "location", "mode": "public"})
+    return r.json().get("_id")                      # 201 -> new folder _id
 
-def rename_media(media_id, new_name):
-    # Works for files AND folders. NOTE: this endpoint accepts `parentId` but SILENTLY IGNORES it —
-    # it can rename, it cannot reparent. Returns {"updated": true} either way.
+def move_files(file_ids, target_parent_id=""):      # "" = move to root; batch-capable
+    return requests.post(f"{GHL}/medias/move-files", headers=HDRS, json={
+        "altId": LOC, "altType": "location", "targetParentId": target_parent_id,
+        "filesToBeMoved": [{"_id": fid, "altId": LOC, "altType": "location"} for fid in file_ids]
+    })                                              # 201 {"status":"Success"}; per-file {_id} is enough
+
+def rename_media(media_id, new_name):               # files AND folders
     return requests.post(f"{GHL}/medias/{media_id}", headers=HDRS,
-                         json={"name": new_name, "altType": "location", "altId": LOC}).json()
+        json={"name": new_name, "altId": LOC, "altType": "location"})
 ```
 
-**The move trap (verified the hard way):** `POST /medias/{id}` with a changed `parentId`,
-`POST /medias/move`, and `bulk-update` all return success-ish responses but never actually move the
-file — across every dest-field name, API version, and host. Even a headless browser can't do it (the
-media app needs a Firebase token that cookie-based auth doesn't provide). So the realistic pattern is:
+So an AI *can* do a one-shot library cleanup: build the folder tree with `create_folder`, then
+`move_files` everything into place. **Moves are URL-safe** — a file's CDN URL
+(`assets.cdn.filesafe.space/{LOC}/media/{file-uuid}.{ext}`) is keyed on its storage uuid, not its
+folder, so emails/pages/configs pointing at a moved file keep working with no reference fixups.
 
-```
-AI builds the folder structure (create_folder) ──▶ human does the moves in the GHL UI
-                                                    (drag, or right-click → Move to folder → Move here)
-```
-
-**Good news — moves are URL-safe.** A file's CDN URL is `assets.cdn.filesafe.space/{LOC}/media/
-{file-uuid}.{ext}`, keyed on its storage uuid (not its folder), so moving it in the UI never changes
-the URL. Any emails/pages/configs already pointing at that file keep working after the move — no
-reference fixups needed.
+> Finding-the-endpoint note: the move call isn't in the public API docs. We found it by running an
+> interactive browser session, doing one move by hand, and recording the network calls (the
+> capture-once pattern in [05-beyond-ghl.md](05-beyond-ghl.md)). When an endpoint is undocumented,
+> capture it from the real UI rather than guessing field names.
 
 ---
 

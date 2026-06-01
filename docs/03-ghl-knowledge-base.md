@@ -118,14 +118,17 @@ GET /locations/{LOC}/tags/search                   # tag catalog
 GET    /medias/files?altType=location&altId={LOC}&type=file   # list; type=file (NOT type=image — see gotcha)
 GET    /medias/files?...&parentId={folderId}                  # list inside a folder (type=folder lists subfolders)
 POST   /medias/upload-file?altType=location&altId={LOC}       # multipart; optional parentId form field to file it
-POST   /medias/folder        {name, altType, altId, parentId?}   # create folder -> returns the folder incl. _id
-POST   /medias/{id}          {name, altType, altId}              # RENAME a file/folder (see move gotcha below)
-DELETE /medias/{id}?altType=location&altId={LOC}                 # delete a file or folder
+POST   /medias/folder        {name, parentId, altType, altId, mode:"public"}  # create folder -> returns it incl. _id
+POST   /medias/move-files    {altId, altType, targetParentId, filesToBeMoved:[{_id,altId,altType}]}  # MOVE (batch); targetParentId "" = root
+POST   /medias/{id}          {name, altType, altId}              # rename a file/folder
+PUT    /medias/delete-files  {altId, altType, status:"trashed", filesToBeDeleted:[{_id,...}]}  # bulk trash
+DELETE /medias/{id}?altType=location&altId={LOC}                 # delete a single file or folder
 ```
-You can **create, rename, upload, and delete** via the API — but you **cannot move/reparent an
-existing file** through it (see gotcha 7). CDN URLs look like
-`assets.cdn.filesafe.space/{LOC}/media/{file-uuid}.{ext}` and are keyed on the file's storage uuid
-(not its catalog `_id`, not its folder), so a move never changes a file's URL.
+Full CRUD is available via the API: **create, upload, rename, MOVE, and delete**. The move endpoint is
+`/medias/move-files` (note: `targetParentId` + a `filesToBeMoved` array, *not* `parentId` on the file).
+CDN URLs look like `assets.cdn.filesafe.space/{LOC}/media/{file-uuid}.{ext}` and are keyed on the
+file's storage uuid (not its catalog `_id`, not its folder), so a move never changes a file's URL —
+links keep working after a move.
 
 ### Calendars
 ```
@@ -232,16 +235,12 @@ top-level `parent` to the branch-wrapper UUID. Miss it and downstream merge toke
    genuine UI save.
 
 7. **Media library: use `type=file`, not `type=image`.** Uploads are stored as `type=file`; querying
-   `type=image` returns count 0 even in a folder full of PNGs. **And you cannot MOVE a file between
-   folders via the API — it's UI-only.** The media library is Firestore-backed; reparenting is a
-   Firestore write with no working REST endpoint. `POST /medias/{id}` renames fine but silently
-   ignores `parentId` (returns `{"updated":true}`, nothing moves); the undocumented `POST /medias/move`
-   returns `{"status":"Success"}` and no-ops; `bulk-update` 400s. None of the dest-field names, API
-   versions, or hosts change this, and headless-browser automation can't move either (the app needs a
-   Firebase token that cookie auth doesn't supply → `permission-denied`). Workaround: create folders
-   via API, but have a human do the file moves in the UI (drag, or right-click → Move to folder).
-   It's URL-safe — a move never changes a file's CDN URL (URLs are keyed on the file's storage uuid,
-   not its folder), so any links pointing at moved files keep working.
+   `type=image` returns count 0 even in a folder full of PNGs. **To MOVE files, use `POST
+   /medias/move-files`** — `{altId, altType, targetParentId, filesToBeMoved:[{_id, altId, altType}]}`
+   (`targetParentId:""` = root, batch-capable). Don't be fooled by `POST /medias/{id}`: it accepts a
+   `parentId` but silently ignores it (it only renames). The dedicated move endpoint is the one that
+   works. Moves are URL-safe — the CDN URL is keyed on the file's storage uuid, not its folder, so
+   links keep working after a move.
 
 8. **Email stats params are strict:** `timeZone` (camelCase), a valid `topPerformingType` enum, and
    all three `fetchParams[]` — or you get a misleading 422 "must be a string."
