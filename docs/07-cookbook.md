@@ -130,6 +130,43 @@ Before adding a nurture/message step to workflow A, scan every *other* workflow'
 audience or topic so you don't double-message people. List the workflows, iterate their steps, grep
 the message bodies. Cheap insurance against the most common automation embarrassment.
 
+## Recipe 8 — Media library: create folders, and the move trap
+
+You can have the AI organize a media library *partway*: it can create folders, rename, upload, and
+delete via the API. What it **cannot** do is **move an existing file into a folder** — that's UI-only
+(the library is Firestore-backed; reparenting has no working REST endpoint). Know this before you
+promise a client a "one-click library cleanup."
+
+```python
+def create_folder(name, parent_id=None):
+    body = {"name": name, "altType": "location", "altId": LOC}
+    if parent_id:
+        body["parentId"] = parent_id
+    r = requests.post(f"{GHL}/medias/folder", headers=HDRS, json=body)
+    return r.json().get("_id")        # 201 -> the new folder object incl. _id
+
+def rename_media(media_id, new_name):
+    # Works for files AND folders. NOTE: this endpoint accepts `parentId` but SILENTLY IGNORES it —
+    # it can rename, it cannot reparent. Returns {"updated": true} either way.
+    return requests.post(f"{GHL}/medias/{media_id}", headers=HDRS,
+                         json={"name": new_name, "altType": "location", "altId": LOC}).json()
+```
+
+**The move trap (verified the hard way):** `POST /medias/{id}` with a changed `parentId`,
+`POST /medias/move`, and `bulk-update` all return success-ish responses but never actually move the
+file — across every dest-field name, API version, and host. Even a headless browser can't do it (the
+media app needs a Firebase token that cookie-based auth doesn't provide). So the realistic pattern is:
+
+```
+AI builds the folder structure (create_folder) ──▶ human does the moves in the GHL UI
+                                                    (drag, or right-click → Move to folder → Move here)
+```
+
+**Good news — moves are URL-safe.** A file's CDN URL is `assets.cdn.filesafe.space/{LOC}/media/
+{file-uuid}.{ext}`, keyed on its storage uuid (not its folder), so moving it in the UI never changes
+the URL. Any emails/pages/configs already pointing at that file keep working after the move — no
+reference fixups needed.
+
 ---
 
 ## The Claude CLI wrapper (flat-rate, not metered)
