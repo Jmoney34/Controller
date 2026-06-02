@@ -37,6 +37,7 @@ Read these in sequence for the full picture. Each ends with a "Next →" link.
 | 06 | [Full server setup](06-full-server-setup.md) | Stand up the always-on server, and why it beats a laptop app | 8 min |
 | 07 | [Cookbook](07-cookbook.md) | Copy-paste recipes for the common tasks | reference |
 | 08 | [Social Content Engine](08-social-content-engine.md) | AI that plans, generates + schedules social posts behind a human approval gate | 8 min |
+| 09 | [Performance & Caching](09-performance-and-caching.md) | Make a slow multi-tab dashboard instant: snapshot cache + background refresh | 7 min |
 
 ---
 
@@ -50,6 +51,7 @@ Read these in sequence for the full picture. Each ends with a "Next →" link.
 - **…automate a platform with no API** → [05](05-beyond-ghl.md)
 - **…run it 24/7** → [06](06-full-server-setup.md)
 - **…build an AI social-posting engine (approval-gated)** → [08](08-social-content-engine.md)
+- **…make a slow multi-tab dashboard load instantly** → [09](09-performance-and-caching.md)
 - **…contribute a project or fix** → [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ---
