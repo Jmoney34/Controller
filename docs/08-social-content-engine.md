@@ -170,5 +170,27 @@ can't afford to miss, so triage earns its keep on community-feel alone.
 
 ---
 
-Next → back to **[00-start-here.md](00-start-here.md)**, or the render/recipe patterns in
+## Beyond the engine: strategy + self-audit
+
+Two higher-altitude capabilities sit on top of the content engine:
+
+- **30-day strategy vision.** Before the weekly planner drafts posts, a strategy pass generates a
+  rolling 30-day plan (themes, cadence, goals per platform) that is injected as context into weekly
+  planning — so individual posts ladder up to a deliberate arc instead of being one-off.
+- **Account self-audit dossier.** An audit pass pulls the brand's own recent published posts and runs
+  parallel visual scorers (on-brand 0–5, clarity, hook strength) to produce a dossier with a
+  keep / refresh / retire verdict per post + a concrete rebrand action plan. This is judgment work
+  (scoring), not localization — a vision-language model viewing each post, not pixel detection.
+
+Both stay advisory/approval-gated: they inform what the human approves, they don't post.
+
+## Video lane
+
+The branding agent also produces genuine short-form **vertical video** (real b-roll + AI voiceover +
+word-synced captions), same approval-gate philosophy. See **[10-reels-branding-video.md](10-reels-branding-video.md)**.
+
+---
+
+Next → back to **[00-start-here.md](00-start-here.md)**, the video lane in
+**[10-reels-branding-video.md](10-reels-branding-video.md)**, or the render/recipe patterns in
 **[07-cookbook.md](07-cookbook.md)**.

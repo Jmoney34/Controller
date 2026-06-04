@@ -173,9 +173,24 @@ GET  /funnels/builder/page/data?locationId={LOC}&pageId={PAGE}      # Version 20
 POST /funnels/builder/autosave/{PAGE}                               # Version 2021-04-15 (save DRAFT)
 POST /funnels/funnel/create                                         # {locationId,name,type:"funnel"|"website"}
 POST /funnels/funnel/{FUNNEL}/step                                  # add a page
+POST /funnels/order-form/products                                   # Version 2021-04-15 (bind a product+price to a checkout/order-form step)
+PUT  /funnels/funnel/step                                           # Version 2021-04-15 (rename a step + set its slug)
+GET  /funnels/order-form/products?funnel={FUNNEL}&step={STEP}&locationId={LOC}   # read a step's product binding
 ```
 > Page autosave writes the **draft** only; there is no confirmed public "publish page" API — publish
 > still happens with a click in the GHL builder (or via browser automation).
+>
+> **Bind a product to a checkout page** (`POST /funnels/order-form/products`):
+> `{ locationId, funnel:{FUNNEL}, step:{STEP}, name, displayText:"", product:{PRODUCT}, price:{PRICE},
+> bumpProduct:false, quantity:{max:1,allowMultiple:false}, authorizeAmount:0 }`. The `price` is a
+> specific price-variant ID (one-time vs each installment plan), so a dedicated per-plan checkout =
+> one step per plan, each bound to the matching price ID. Read it back with the GET form above to
+> verify (the `price` field returns the full variant object incl. amount).
+>
+> **Rename + slug** (`PUT /funnels/funnel/step`):
+> `{ stepId:{STEP}, name, url:"/your-slug", domainName:"checkout.example.com" }`.
+> **Headers for both:** admin token (`token-id`), `channel: APP`, `source: WEB_USER`, `version: 2021-04-15`.
+> The page-builder reads (`/builder/page/data`) additionally require `origin: https://page-builder.leadconnectorhq.com`.
 
 ---
 
@@ -259,6 +274,20 @@ top-level `parent` to the branch-wrapper UUID. Miss it and downstream merge toke
     steps output plain-text paragraphs and wrap them in STATIC `<p>` tags in the email step's HTML.
 
 13. **Call recording endpoint needs `Version: 2023-02-21`**, not `2021-07-28`.
+
+14. **Page-builder admin calls need `source: WEB_USER`.** `POST /funnels/builder/autosave` and the
+    `/funnels/order-form/*` + `/funnels/funnel/step` calls return `401 "Auth source is not valid."`
+    without the `source: WEB_USER` header (in addition to `token-id` + `channel: APP`). The page-data
+    *read* also needs `origin: https://page-builder.leadconnectorhq.com` or it 401s.
+
+15. **Workflow triggers are NOT readable from the workflow object** for modern (bucket-migrated)
+    workflows: `GET /workflow/{LOC}/{WF}` returns `triggers: []` even when the UI shows triggers,
+    because they live in a separate trigger bucket (writing is the two-call `POST /trigger` +
+    `PUT /only-triggers`). So you **cannot confirm a workflow's trigger/product coverage via API** —
+    verify in the GHL UI or by a real event. Corollary: **funnel/order purchases do not auto-populate
+    contact fields** — onboarding (items-purchased, financing, access) is written by the *purchase
+    workflow*, price-branched off the order total (`{{payment.total_amount}}`). A new checkout funnel
+    won't onboard buyers until it's added to that workflow's trigger.
 
 ---
 

@@ -38,6 +38,7 @@ Read these in sequence for the full picture. Each ends with a "Next →" link.
 | 07 | [Cookbook](07-cookbook.md) | Copy-paste recipes for the common tasks | reference |
 | 08 | [Social Content Engine](08-social-content-engine.md) | AI that plans, generates + schedules social posts behind a human approval gate | 8 min |
 | 09 | [Performance & Caching](09-performance-and-caching.md) | Make a slow multi-tab dashboard instant: snapshot cache + background refresh | 7 min |
+| 10 | [Reels / Branding Video](10-reels-branding-video.md) | Genuine short-form vertical video: real b-roll + AI voiceover + word-synced captions, approval-gated | 6 min |
 
 ---
 
@@ -52,6 +53,7 @@ Read these in sequence for the full picture. Each ends with a "Next →" link.
 - **…run it 24/7** → [06](06-full-server-setup.md)
 - **…build an AI social-posting engine (approval-gated)** → [08](08-social-content-engine.md)
 - **…make a slow multi-tab dashboard load instantly** → [09](09-performance-and-caching.md)
+- **…generate short-form video (reels) with AI voiceover** → [10](10-reels-branding-video.md)
 - **…contribute a project or fix** → [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ---
