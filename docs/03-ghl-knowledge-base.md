@@ -170,15 +170,22 @@ PUT  /workflow/{LOC}/only-triggers/{wfId}         # re-sync triggers for "bucket
 ```
 GET  /funnels/funnel/list?locationId={LOC}                          # Version 2021-07-28
 GET  /funnels/builder/page/data?locationId={LOC}&pageId={PAGE}      # Version 2021-04-15 (read full page)
-POST /funnels/builder/autosave/{PAGE}                               # Version 2021-04-15 (save DRAFT)
+POST /funnels/builder/autosave/{PAGE}                               # Version 2021-04-15 — pageType:"draft" saves, pageType:"live" PUBLISHES
 POST /funnels/funnel/create                                         # {locationId,name,type:"funnel"|"website"}
 POST /funnels/funnel/{FUNNEL}/step                                  # add a page
 POST /funnels/order-form/products                                   # Version 2021-04-15 (bind a product+price to a checkout/order-form step)
 PUT  /funnels/funnel/step                                           # Version 2021-04-15 (rename a step + set its slug)
 GET  /funnels/order-form/products?funnel={FUNNEL}&step={STEP}&locationId={LOC}   # read a step's product binding
 ```
-> Page autosave writes the **draft** only; there is no confirmed public "publish page" API — publish
-> still happens with a click in the GHL builder (or via browser automation).
+> **Edit AND publish a page 100% headlessly — no browser, no manual click.** `/funnels/builder/autosave`
+> publishes when you send `pageType: "live"` (use `"draft"` to stage). Body:
+> `{ funnelId, pageData:<the FULL object from GET /builder/page/data>, pageVersion:1, pageType:"live", integrations:{} }`.
+> Do it **two-step for reliability — autosave `"draft"` THEN `"live"`**; a lone `"live"` sometimes doesn't persist.
+> Edit the **parsed** `pageData` (recursive walk over string fields — prices/CTA text/contract links live deep in
+> `sections`, e.g. `faqList[].value[].text` HTML), never the `json.dumps` string (escaped quotes won't match).
+> Verify by re-GET **and** a public-URL curl (cache-bust the query) — the autosave response is a poor success
+> signal, and the public render lags `pageData` ~10-15s (CDN), so re-check before assuming failure. This fully
+> replaces browser automation for page-content edits.
 >
 > **Bind a product to a checkout page** (`POST /funnels/order-form/products`):
 > `{ locationId, funnel:{FUNNEL}, step:{STEP}, name, displayText:"", product:{PRODUCT}, price:{PRICE},

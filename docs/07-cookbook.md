@@ -167,6 +167,64 @@ folder, so emails/pages/configs pointing at a moved file keep working with no re
 
 ---
 
+## Recipe 9 — Edit AND publish a landing/funnel page, 100% headlessly (no browser, no manual click)
+
+The single highest-leverage page capability: change live page content (prices, CTA text, contract
+links, copy) **and publish it** with zero browser session. The trick is `pageType: "live"` on the
+autosave call — it publishes — and editing the **parsed** `pageData`, not its serialized string.
+
+```python
+# Page-builder lives on the admin host with the short-lived admin token-id JWT (not the public token).
+# If your host hits Cloudflare error 1010 on Python's TLS, route these calls through a curl subprocess.
+BACKEND = "https://backend.leadconnectorhq.com"
+PB = {"token-id": os.environ["GHL_ADMIN_TOKEN_ID"], "channel": "APP",
+      "source": "WEB_USER", "version": "2021-04-15", "Content-Type": "application/json"}
+
+def get_page(page_id):                                  # READ also needs the page-builder origin
+    r = requests.get(f"{BACKEND}/funnels/builder/page/data?pageId={page_id}",
+                     headers={**PB, "origin": "https://page-builder.leadconnectorhq.com"})
+    return r.json()                                     # full object: {funnelId, sections, settings, ...}
+
+def walk_replace(node, rules):                          # edit the PARSED tree, never json.dumps(...)
+    if isinstance(node, dict):  return {k: walk_replace(v, rules) for k, v in node.items()}
+    if isinstance(node, list):  return [walk_replace(v, rules) for v in node]
+    if isinstance(node, str):
+        for r in rules:                                 # rule: {"find","replace", optional "anchor"}
+            if r.get("anchor") and r["anchor"] not in node: continue
+            node = node.replace(r["find"], r["replace"])
+        return node
+    return node
+
+def autosave(page_id, page, funnel_id, page_type):      # page_type "draft" stages, "live" PUBLISHES
+    return requests.post(f"{BACKEND}/funnels/builder/autosave/{page_id}", headers=PB,
+        json={"funnelId": funnel_id, "pageData": page, "pageVersion": 1,
+              "pageType": page_type, "integrations": {}})
+
+page = get_page(PAGE)
+edited = walk_replace(page, [{"find": "$799", "replace": "$699"}])
+autosave(PAGE, edited, page["funnelId"], "draft")       # TWO-STEP: draft ...
+autosave(PAGE, edited, page["funnelId"], "live")        # ... then live (a lone "live" sometimes won't stick)
+```
+
+Hard-won details:
+
+- **Two-step publish.** Send `"draft"` then `"live"`. A single `"live"` autosave sometimes doesn't persist.
+- **Edit the parsed structure.** Prices/links/copy live deep in `sections` (button + contract links sit
+  in `faqList[].value[].text` HTML). Recursively replace string fields. Editing the `json.dumps` string
+  fails — its quotes are escaped and won't match.
+- **Make finds unique, or anchor them.** Dry-run count each `find` first. For a surgical link swap where
+  the same contract id appears on several cards, add an `anchor` so you only rewrite the card that also
+  contains a sibling marker (e.g. anchor on the CES contract id so a CPT card's identical id is spared).
+- **Verify out-of-band.** The autosave response is a poor success signal — re-GET the page **and** curl the
+  public URL with a cache-busting query param. The public render lags `pageData` ~10-15s (CDN), so re-check
+  after a short wait rather than assuming the write failed.
+- **Back up first.** Save the `get_page` result before editing; restore by autosaving it back.
+
+This replaces browser automation for *all* page-content work. Browser sessions are now a true last
+resort for pages.
+
+---
+
 ## The Claude CLI wrapper (flat-rate, not metered)
 
 Spawn the Claude CLI as a subprocess so it bills against a flat-rate subscription. Strip
